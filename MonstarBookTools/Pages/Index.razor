@@ -1,0 +1,124 @@
+﻿@page "/"
+
+@using Models
+
+<div class="container-fluid">
+    <div class="d-inline-block">
+        <div class="card-deck align-items-center text-center">
+            <div>
+                Main Card:
+                <EditableCardView @bind-Card="@recipe.MainCard" />
+            </div>
+            <span class="oi oi-plus"></span>
+            <div>
+                Sub Card:
+                <EditableCardView @bind-Card="@recipe.SubCard" />
+            </div>
+            <span class="oi oi-arrow-right"></span>
+            @if (recipe.ResultCard is Card card)
+            {
+                <div class="row align-items-center card-deck">
+                    <div>
+                        <!--Result-->
+                        Result Card:
+                        <div class="card">
+                            <div class="card-header">
+                                @card.Name
+                                【@card.Rare】
+                            </div>
+                            <div class="card-body text-center m-0 p-0">
+                                <img src="@($"/card-images/{card.ImgSrc}")" class="card-img d-none d-xl-inline" style="width:106px" />
+                            </div>
+                            <div class="card-body">
+                                @for (int i = 0; i < card.Rare.MaxSkillCount; i++)
+                                {
+                                    <div class="border">
+                                        @($"{card.Skills.ElementAtOrDefault(i)?.ToString() ?? "　"}")
+                                    </div>
+                                }
+                            </div>
+                        </div>
+                        <!--スキル組み合わせ成功率-->
+                        <div class="text-danger">
+                            @if (recipe.MinRate == recipe.MaxRate)
+                            {
+                                @($"{recipe.MinRate:P}")
+                            }
+                            else
+                            {
+                                @($"{recipe.MinRate:P}~{recipe.MaxRate:P}")
+                            }
+                        </div>
+                    </div>
+
+                    <div>
+                        @if (recipe.VisibleSkill.Any())
+                        {
+                            <div>必須スキル指定</div>
+                        }
+                        @foreach (var skill in recipe.VisibleSkill)
+                        {
+                            var guid = Guid.NewGuid();
+                            <div>
+                                <!--Checkbox-->
+                                <div class="custom-control custom-checkbox">
+                                    <input class="custom-control-input" type="checkbox" id="@guid" checked="@(skill.IsChecked)" disabled="@(!skill.IsChecked && recipe.SelectableSkill.Count(s => s.IsChecked) >= (recipe.ResultCard?.Rare.MaxSkillCount ?? 4))" @onchange="e => OnSkillCheckedChanged(skill, e)" />
+                                    @if (skill.Lvs.Count() > 1)
+                                    {
+                                        <label class="custom-control-label" for="@guid">@(skill.Name)</label>
+                                        <!--SkillLv Select-->
+                                        <select class="small ml-1" @onchange="e => OnLvChanged(skill, e)" disabled="@(!skill.IsChecked)">
+                                            @foreach (var lv in skill.Lvs)
+                                            {
+                                                <option value="@lv" selected="@(lv==skill.SelectedLv)">@(lv.ToString("+#;-#;**"))</option>
+                                            }
+                                        </select>
+                                    }
+                                    else
+                                    {
+                                        <label class="custom-control-label" for="@guid">@($"{skill.Name}{skill.SelectedLv:+#;-#}")</label>
+                                    }
+                                </div>
+                            </div>
+                        }
+                    </div>
+                </div>
+            }
+        </div>
+    </div>
+
+    @if (recipe.ResultCard is Card card1)
+    {
+        <!--見込み試行回数-->
+        <div class="alert alert-info">
+            <h5 class="alert-heading">見込み試行回数:</h5>
+            <ul>
+                @foreach (var rate in new[] { 0.5, 0.7, 0.9 })
+                {
+                    var trail = recipe.GetTrailNums(rate);
+                    <li>
+                        @($"{rate:P0}")の人が<span class="text-danger">@(string.Join("~", trail))</span>回目までに成功
+                        合成費用<span class="text-danger">@(string.Join("~", trail.Select(n => (n*card1.Composite).ToString("N0"))))</span>Seed
+                    </li>
+
+                }
+            </ul>
+        </div>
+    }
+</div>
+
+@code{
+    private CompositeRecipe recipe = new CompositeRecipe();
+
+    private void OnSkillCheckedChanged(CompositeRecipe.SkillSelect source, ChangeEventArgs e)
+    {
+        source.IsChecked = (bool?)e.Value ?? false;
+        recipe.SkillSelectChanged();
+    }
+
+    private void OnLvChanged(CompositeRecipe.SkillSelect source, ChangeEventArgs e)
+    {
+        source.SelectedLv = int.Parse(e.Value?.ToString() ?? "0");
+        recipe.SkillSelectChanged();
+    }
+}

@@ -1,0 +1,97 @@
+﻿@using Models
+
+<div class="modal overflow-auto @ModalClass" tabindex="-1" role="dialog" style="display:@ModalDisplay">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header pb-0">
+                <h5>スキル選択</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close" @onclick="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body row">
+                @foreach (var skill in skillList)
+                {
+                    var guid = Guid.NewGuid();
+                    <div class="form-inline col-6 col-md-4 col-lg-3" style="background-color:@(skill.Color)">
+                        <!--Checkbox-->
+                        <div class="custom-control custom-checkbox">
+                            <input class="custom-control-input" type="checkbox" id="@guid" checked="@(skill.IsChecked)" @onchange="e => OnSkillCheckedChanged(skill, e)" />
+                            <label class="custom-control-label" for="@guid">@(skill.Name)</label>
+                        </div>
+                        <!--SkillLv Select-->
+                        @if (skill.IsChecked)
+                        {
+                            <select class="small ml-1" @onchange="e => OnLvChanged(skill, e)" disabled="@(skill.Lvs.Count() < 2)">
+                                @foreach (var lv in skill.Lvs)
+                                {
+                                    <option value="@lv" selected="@(lv==skill.SelectedLv)">@(lv.ToString("+#;-#;**"))</option>
+                                }
+                            </select>
+                        }
+                    </div>
+                }
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary" data-dismiss="modal" @onclick="Close">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+@code{
+    class SkillSelect
+    {
+        public SkillSelect(SkillData data, Skill? selectedSkill)
+        {
+            Name = data.Name;
+            Color = data.Color;
+            Lvs = data.Lvs;
+            IsChecked = selectedSkill != null;
+            SelectedLv = selectedSkill?.Lv ?? Lvs.FirstOrDefault();
+        }
+
+        public string Name { get; }
+        public string Color { get; }
+        public int[] Lvs { get; }
+        public bool IsChecked { get; set; }
+        public int SelectedLv { get; set; }
+    }
+
+    private string ModalDisplay = "none;";
+    private string ModalClass = "";
+    //private bool ShowBackdrop = false;
+
+    private SkillSelect[] skillList = Array.Empty<SkillSelect>();
+    private Func<IEnumerable<Skill>, Task>? callback;
+
+    public void Open(IEnumerable<SkillData> skillDatas, IEnumerable<Skill> selectedSkills, Func<IEnumerable<Skill>, Task> callback)
+    {
+        skillList = skillDatas.Select(sd => new SkillSelect(sd, selectedSkills.SingleOrDefault(ss => ss.Name == sd.Name))).ToArray();
+        this.callback = callback;
+
+        ModalDisplay = "block;";
+        ModalClass = "Show";
+        //ShowBackdrop = true;
+        StateHasChanged();
+    }
+
+    public void Close()
+    {
+        ModalDisplay = "none";
+        ModalClass = "";
+        //ShowBackdrop = false;
+        StateHasChanged();
+        callback?.Invoke(skillList.Where(s => s.IsChecked).Select(s => new Skill(s.Name, s.SelectedLv)));
+    }
+
+    private void OnSkillCheckedChanged(SkillSelect source, ChangeEventArgs e)
+    {
+        source.IsChecked = (bool?)e.Value ?? false;
+    }
+
+    private void OnLvChanged(SkillSelect source, ChangeEventArgs e)
+    {
+        source.SelectedLv = int.Parse(e.Value?.ToString() ?? "0");
+    }
+}

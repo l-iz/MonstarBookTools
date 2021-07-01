@@ -1,0 +1,602 @@
+﻿@page "/tips"
+
+<div class="container-fluid">
+    <h3>8スキルカードの(たぶん)簡単なつくりかた</h3>
+
+    <div class="alert alert-primary">
+        <p>
+            ここでは、2021/6/26に詩音さんが生配信中に作られた8スキルカードを題材に、配信中の手順をちょっとだけ加工して合成レシピを作ってみます。<br />
+            (もっと良い作り方が見つかれば、随時更新します)<br />
+        </p>
+
+        <p class="initialism m-2">
+            配信URL:<a href="https://www.youtube.com/watch?v=snx7LFJIoOg" class="alert-link">あほてち（詩音）カードとかやる！第58うな！</a><br />
+            Blog:<a href="http://knife04.blog.fc2.com/" class="alert-link">あほてちっていうなっ！</a>
+        </p>
+        <p class="initialism mb-0">
+            題材としての利用許可、ありがとうございます！
+        </p>
+    </div>
+
+    <ol>
+        <li class="mb-4">
+            取得したいスキル8つを選び、当該スキルを持ったカードを探す
+        </li>
+        <li class="mb-4">
+            ピックアップしたカードを、4スキルずつになるように2つのグループに分ける
+            <ul class="alert alert-warning mx-2 py-0">
+                <li>
+                    可能な限り、「属性UP/追撃/瞬足/女神」と「それ以外」で2グループに分けるとよい
+                </li>
+            </ul>
+
+            <div>グループ1</div>
+            <div class="card-deck text-center border border-dark mx-3 small">
+                <div class="card" style="max-width:10rem; min-width:10rem;">
+                    <div class="card-header bg-warning">カサード</div>
+                    <div class="card-body">
+                        <div class="border text-danger">瞬足+4</div>
+                        <div class="border">*****</div>
+                        <div class="border">*****</div>
+                        <div class="border">*****</div>
+                    </div>
+                </div>
+                <div class="card" style="max-width:10rem; min-width:10rem;">
+                    <div class="card-header bg-warning">使命の継承者ニックス</div>
+                    <div class="card-body">
+                        <div class="border text-danger">女神の微笑+4</div>
+                        <div class="border">*****</div>
+                        <div class="border">*****</div>
+                        <div class="border">*****</div>
+                    </div>
+                </div>
+                <div class="card" style="max-width:10rem; min-width:10rem;">
+                    <div class="card-header">パンプキン</div>
+                    <div class="card-body">
+                        <div class="border">SP吸収+3</div>
+                        <div class="border">MR成長+3</div>
+                        <div class="border text-danger">追撃[白]+3</div>
+                        <div class="border text-danger">属性UP[白]+3</div>
+                    </div>
+                </div>
+            </div>
+            <div>グループ2</div>
+            <div class="card-deck text-center border border-dark mx-3 small">
+                <div class="card" style="max-width:10rem; min-width:10rem;">
+                    <div class="card-header bg-warning">ケリッド</div>
+                    <div class="card-body">
+                        <div class="border text-danger">食いしん坊+2</div>
+                        <div class="border">*****</div>
+                        <div class="border">*****</div>
+                        <div class="border">*****</div>
+                    </div>
+                </div>
+                <div class="card" style="max-width:10rem; min-width:10rem;">
+                    <div class="card-header bg-warning">フェイド</div>
+                    <div class="card-body">
+                        <div class="border text-danger">耐久の初撃+4</div>
+                        <div class="border">*****</div>
+                        <div class="border">*****</div>
+                        <div class="border">*****</div>
+                    </div>
+                </div>
+                <div class="card" style="max-width:10rem; min-width:10rem;">
+                    <div class="card-header bg-info">河童</div>
+                    <div class="card-body">
+                        <div class="border text-danger">初速+3</div>
+                    </div>
+                </div>
+                <div class="card" style="max-width:10rem; min-width:10rem;">
+                    <div class="card-header bg-info">クリスタルトランプドール</div>
+                    <div class="card-body">
+                        <div class="border">一心不乱-3</div>
+                        <div class="border">成長期+3</div>
+                        <div class="border text-danger">緊急回避+3</div>
+                    </div>
+                </div>
+            </div>
+            <ul>
+                <li><span class="bg-light">白背景</span>は手持ちのカード</li>
+                <li><span class="bg-info">緑背景</span>はカードを引くもの(スキル厳選は不要)</li>
+                <li><span class="bg-warning">黄色背景</span>はカードを引くときにスキル厳選が必要なもの</li>
+                <li><span class="text-danger">赤字</span>は取得したいスキル</li>
+                <li><span class="border">*****</span>表記は、ランダムで含まれるスキルなんでも可</li>
+            </ul>
+        </li>
+        <li class="mb-4">
+            ミッションクエストで取得できるRank1の特殊カード2枚に合成を重ねて、4スキルを集約
+            <ul class="alert alert-warning mx-2 py-0">
+                <li>
+                    ミッションクエストのカードは「チャージ」「引く」「合成」が全て1SEEDでできるので、最も安上がり
+                </li>
+                <li>
+                    最終カードに含めたい属性と同じ属性を持つカード(白属性の場合、大和にゃでし子)は、ここではMainCardとして使わない
+                </li>
+                <li>
+                    SubCardに3スキル以下のものがある場合、スキル数が少ないものを後に合成した方が合成成功率が高くなる
+                </li>
+            </ul>
+            <div>グループ1</div>
+            <div class="card-deck text-center align-items-center border border-dark mx-3 small">
+                <div class="card" style="max-width:10rem; min-width:10rem;">
+                    <div class="card-header bg-info">ガトリングキャノン</div>
+                    <div class="card-body">
+                        <div class="border">属性UP[火]+1</div>
+                        <div class="border">追撃[火]+1</div>
+                        <div class="border">瞬足+2</div>
+                        <div class="border">女神の微笑+1</div>
+                    </div>
+                </div>
+                <span class="oi oi-plus" />
+                <div class="card" style="max-width:10rem; min-width:10rem;">
+                    <div class="card-header bg-warning">カサード</div>
+                    <div class="card-body">
+                        <div class="border text-danger">瞬足+4</div>
+                        <div class="border">*****</div>
+                        <div class="border">*****</div>
+                        <div class="border">*****</div>
+                    </div>
+                </div>
+                <span class="oi oi-arrow-right" />
+                <div class="card" style="max-width:10rem; min-width:10rem;">
+                    <div class="card-header bg-warning">ガトリングキャノン</div>
+                    <div class="card-body">
+                        <div class="border text-danger">瞬足+4</div>
+                        <div class="border text-danger">女神の微笑+1</div>
+                        <div class="border">*****</div>
+                        <div class="border">*****</div>
+                    </div>
+                </div>
+            </div>
+            <div class="card-deck text-center align-items-center border border-dark mx-3 small">
+                <div class="card" style="max-width:10rem; min-width:10rem;">
+                    <div class="card-header">ガトリングキャノン</div>
+                    <div class="card-body">
+                        <div class="border">瞬足+4</div>
+                        <div class="border">女神の微笑+1</div>
+                        <div class="border">*****</div>
+                        <div class="border">*****</div>
+                    </div>
+                </div>
+                <span class="oi oi-plus" />
+                <div class="card" style="max-width:10rem; min-width:10rem;">
+                    <div class="card-header bg-warning">使命の継承者ニックス</div>
+                    <div class="card-body">
+                        <div class="border text-danger">女神の微笑+4</div>
+                        <div class="border">*****</div>
+                        <div class="border">*****</div>
+                        <div class="border">*****</div>
+                    </div>
+                </div>
+                <span class="oi oi-arrow-right" />
+                <div class="card" style="max-width:10rem; min-width:10rem;">
+                    <div class="card-header bg-warning">ガトリングキャノン</div>
+                    <div class="card-body">
+                        <div class="border text-danger">瞬足+4</div>
+                        <div class="border text-danger">女神の微笑+4</div>
+                        <div class="border">*****</div>
+                        <div class="border">*****</div>
+                    </div>
+                </div>
+            </div>
+            <div class="card-deck text-center align-items-center border border-dark mx-3 small">
+                <div class="card" style="max-width:10rem; min-width:10rem;">
+                    <div class="card-header">ガトリングキャノン</div>
+                    <div class="card-body">
+                        <div class="border">瞬足+4</div>
+                        <div class="border">女神の微笑+4</div>
+                        <div class="border">*****</div>
+                        <div class="border">*****</div>
+                    </div>
+                </div>
+                <span class="oi oi-plus" />
+                <div class="card" style="max-width:10rem; min-width:10rem;">
+                    <div class="card-header">パンプキン</div>
+                    <div class="card-body">
+                        <div class="border">SP吸収+3</div>
+                        <div class="border">MR成長+3</div>
+                        <div class="border text-danger">追撃[白]+3</div>
+                        <div class="border text-danger">属性UP[白]+3</div>
+                    </div>
+                </div>
+                <span class="oi oi-arrow-right" />
+                <div class="card" style="max-width:10rem; min-width:10rem;">
+                    <div class="card-header bg-warning">ガトリングキャノン</div>
+                    <div class="card-body">
+                        <div class="border text-danger">瞬足+4</div>
+                        <div class="border text-danger">女神の微笑+4</div>
+                        <div class="border text-danger">追撃[白]+3</div>
+                        <div class="border text-danger">属性UP[白]+3</div>
+                    </div>
+                </div>
+            </div>
+
+            <div>グループ2</div>
+            <div class="card-deck text-center align-items-center border border-dark mx-3 small">
+                <div class="card" style="max-width:10rem; min-width:10rem;">
+                    <div class="card-header bg-info">クリスタルゴーレム</div>
+                    <div class="card-body">
+                        <div class="border">属性UP[水]+1</div>
+                        <div class="border">追撃[水]+1</div>
+                        <div class="border">瞬足+2</div>
+                        <div class="border">女神の微笑+1</div>
+                    </div>
+                </div>
+                <span class="oi oi-plus" />
+                <div class="card" style="max-width:10rem; min-width:10rem;">
+                    <div class="card-header bg-warning">ケリッド</div>
+                    <div class="card-body">
+                        <div class="border text-danger">食いしん坊+2</div>
+                        <div class="border">*****</div>
+                        <div class="border">*****</div>
+                        <div class="border">*****</div>
+                    </div>
+                </div>
+                <span class="oi oi-arrow-right" />
+                <div class="card" style="max-width:10rem; min-width:10rem;">
+                    <div class="card-header bg-warning">クリスタルゴーレム</div>
+                    <div class="card-body">
+                        <div class="border text-danger">食いしん坊+2</div>
+                        <div class="border">*****</div>
+                        <div class="border">*****</div>
+                        <div class="border">*****</div>
+                    </div>
+                </div>
+            </div>
+            <div class="card-deck text-center align-items-center border border-dark mx-3 small">
+                <div class="card" style="max-width:10rem; min-width:10rem;">
+                    <div class="card-header">クリスタルゴーレム</div>
+                    <div class="card-body">
+                        <div class="border">食いしん坊+2</div>
+                        <div class="border">*****</div>
+                        <div class="border">*****</div>
+                        <div class="border">*****</div>
+                    </div>
+                </div>
+                <span class="oi oi-plus" />
+                <div class="card" style="max-width:10rem; min-width:10rem;">
+                    <div class="card-header bg-warning">フェイド</div>
+                    <div class="card-body">
+                        <div class="border text-danger">耐久の初撃+4</div>
+                        <div class="border">*****</div>
+                        <div class="border">*****</div>
+                        <div class="border">*****</div>
+                    </div>
+                </div>
+                <span class="oi oi-arrow-right" />
+                <div class="card" style="max-width:10rem; min-width:10rem;">
+                    <div class="card-header bg-warning">クリスタルゴーレム</div>
+                    <div class="card-body">
+                        <div class="border text-danger">食いしん坊+2</div>
+                        <div class="border text-danger">耐久の初撃+4</div>
+                        <div class="border">*****</div>
+                        <div class="border">*****</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card-deck text-center align-items-center border border-dark mx-3 small">
+                <div class="card" style="max-width:10rem; min-width:10rem;">
+                    <div class="card-header">クリスタルゴーレム</div>
+                    <div class="card-body">
+                        <div class="border">食いしん坊+2</div>
+                        <div class="border">耐久の初撃+4</div>
+                        <div class="border">*****</div>
+                        <div class="border">*****</div>
+                    </div>
+                </div>
+                <span class="oi oi-plus" />
+                <div class="card" style="max-width:10rem; min-width:10rem;">
+                    <div class="card-header bg-info">クリスタルトランプドール</div>
+                    <div class="card-body">
+                        <div class="border">一心不乱-3</div>
+                        <div class="border">成長期+3</div>
+                        <div class="border text-danger">緊急回避+3</div>
+                    </div>
+                </div>
+                <span class="oi oi-arrow-right" />
+                <div class="card" style="max-width:10rem; min-width:10rem;">
+                    <div class="card-header bg-warning">クリスタルゴーレム</div>
+                    <div class="card-body">
+                        <div class="border text-danger">食いしん坊+2</div>
+                        <div class="border text-danger">耐久の初撃+4</div>
+                        <div class="border text-danger">緊急回避+3</div>
+                        <div class="border">*****</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card-deck text-center align-items-center border border-dark mx-3 small">
+                <div class="card" style="max-width:10rem; min-width:10rem;">
+                    <div class="card-header">クリスタルゴーレム</div>
+                    <div class="card-body">
+                        <div class="border">食いしん坊+2</div>
+                        <div class="border">耐久の初撃+4</div>
+                        <div class="border">緊急回避+3</div>
+                        <div class="border">*****</div>
+                    </div>
+                </div>
+                <span class="oi oi-plus" />
+                <div class="card" style="max-width:10rem; min-width:10rem;">
+                    <div class="card-header bg-info">河童</div>
+                    <div class="card-body">
+                        <div class="border text-danger">初速+3</div>
+                    </div>
+                </div>
+                <span class="oi oi-arrow-right" />
+                <div class="card" style="max-width:10rem; min-width:10rem;">
+                    <div class="card-header bg-warning">クリスタルゴーレム</div>
+                    <div class="card-body">
+                        <div class="border text-danger">食いしん坊+2</div>
+                        <div class="border text-danger">耐久の初撃+4</div>
+                        <div class="border text-danger">緊急回避+3</div>
+                        <div class="border text-danger">初速+3</div>
+                    </div>
+                </div>
+            </div>
+        </li>
+        <li class="mb-4">
+            最終カードを銅ランクで引き、4スキルカードの片方を合成してスキルを全て最終カードに移す
+
+            <div class="card-deck text-center align-items-center border border-dark mx-3 small">
+                <div class="card" style="max-width:10rem; min-width:10rem;">
+                    <div class="card-header bg-info">ルミナス</div>
+                    <div class="card-body">
+                        <div class="border">*****</div>
+                        <div class="border">*****</div>
+                        <div class="border">*****</div>
+                        <div class="border">*****</div>
+                    </div>
+                </div>
+                <span class="oi oi-plus" />
+                <div class="card" style="max-width:10rem; min-width:10rem;">
+                    <div class="card-header">ガトリングキャノン</div>
+                    <div class="card-body">
+                        <div class="border">瞬足+4</div>
+                        <div class="border">女神の微笑+4</div>
+                        <div class="border">追撃[白]+3</div>
+                        <div class="border">属性UP[白]+3</div>
+                    </div>
+                </div>
+                <span class="oi oi-arrow-right" />
+                <div class="card" style="max-width:10rem; min-width:10rem;">
+                    <div class="card-header bg-warning">ルミナス</div>
+                    <div class="card-body">
+                        <div class="border text-danger">瞬足+4</div>
+                        <div class="border text-danger">女神の微笑+4</div>
+                        <div class="border text-danger">追撃[白]+3</div>
+                        <div class="border text-danger">属性UP[白]+3</div>
+                    </div>
+                </div>
+            </div>
+
+            <ul class="alert alert-warning mx-2 mt-2 py-0">
+                <li>
+                    「属性UP/追撃/瞬足/女神」の+3/+4カードが作れている場合は、同じ属性を持つRank1特殊カードを繰り返し合成すると楽
+                </li>
+            </ul>
+            <div>例えば、</div>
+            <div class="card-deck text-center align-items-center border border-dark mx-3 small">
+                <div class="card" style="max-width:10rem; min-width:10rem;">
+                    <div class="card-header bg-info">ルミナス</div>
+                    <div class="card-body">
+                        <div class="border">*****</div>
+                        <div class="border">*****</div>
+                        <div class="border">*****</div>
+                        <div class="border">*****</div>
+                    </div>
+                </div>
+                <span class="oi oi-plus" />
+                <div class="card" style="max-width:10rem; min-width:10rem;">
+                    <div class="card-header bg-info">大和にゃでし子</div>
+                    <div class="card-body">
+                        <div class="border">属性UP[白]+1</div>
+                        <div class="border">追撃[白]+1</div>
+                        <div class="border">瞬足+2</div>
+                        <div class="border">女神の微笑+1</div>
+                    </div>
+                </div>
+                <span class="oi oi-arrow-right" />
+                <div class="card" style="max-width:10rem; min-width:10rem;">
+                    <div class="card-header bg-warning">ルミナス</div>
+                    <div class="card-body">
+                        <div class="border text-danger">瞬足+2</div>
+                        <div class="border text-danger">追撃[白]+1</div>
+                        <div class="border">*****</div>
+                        <div class="border">*****</div>
+                    </div>
+                </div>
+            </div>
+            <div class="card-deck text-center align-items-center border border-dark mx-3 small">
+                <div class="card" style="max-width:10rem; min-width:10rem;">
+                    <div class="card-header">ルミナス</div>
+                    <div class="card-body">
+                        <div class="border">瞬足+2</div>
+                        <div class="border">追撃[白]+1</div>
+                        <div class="border">*****</div>
+                        <div class="border">*****</div>
+                    </div>
+                </div>
+                <span class="oi oi-plus" />
+                <div class="card" style="max-width:10rem; min-width:10rem;">
+                    <div class="card-header bg-info">大和にゃでし子</div>
+                    <div class="card-body">
+                        <div class="border">属性UP[白]+1</div>
+                        <div class="border">追撃[白]+1</div>
+                        <div class="border">瞬足+2</div>
+                        <div class="border">女神の微笑+1</div>
+                    </div>
+                </div>
+                <span class="oi oi-arrow-right" />
+                <div class="card" style="max-width:10rem; min-width:10rem;">
+                    <div class="card-header bg-warning">ルミナス</div>
+                    <div class="card-body">
+                        <div class="border text-danger">瞬足+2</div>
+                        <div class="border text-danger">追撃[白]+1</div>
+                        <div class="border text-danger">女神の微笑+1</div>
+                        <div class="border">*****</div>
+                    </div>
+                </div>
+            </div>
+            <div class="card-deck text-center align-items-center border border-dark mx-3 small">
+                <div class="card" style="max-width:10rem; min-width:10rem;">
+                    <div class="card-header">ルミナス</div>
+                    <div class="card-body">
+                        <div class="border">瞬足+2</div>
+                        <div class="border">女神の微笑+1</div>
+                        <div class="border">追撃[白]+1</div>
+                        <div class="border">*****</div>
+                    </div>
+                </div>
+                <span class="oi oi-plus" />
+                <div class="card" style="max-width:10rem; min-width:10rem;">
+                    <div class="card-header bg-info">大和にゃでし子</div>
+                    <div class="card-body">
+                        <div class="border">属性UP[白]+1</div>
+                        <div class="border">追撃[白]+1</div>
+                        <div class="border">瞬足+2</div>
+                        <div class="border">女神の微笑+1</div>
+                    </div>
+                </div>
+                <span class="oi oi-arrow-right" />
+                <div class="card" style="max-width:10rem; min-width:10rem;">
+                    <div class="card-header bg-warning">ルミナス</div>
+                    <div class="card-body">
+                        <div class="border text-danger">瞬足+2</div>
+                        <div class="border text-danger">女神の微笑+1</div>
+                        <div class="border text-danger">追撃[白]+1</div>
+                        <div class="border text-danger">属性UP[白]+1</div>
+                    </div>
+                </div>
+            </div>
+            <div class="card-deck text-center align-items-center border border-dark mx-3 small">
+                <div class="card" style="max-width:10rem; min-width:10rem;">
+                    <div class="card-header">ルミナス</div>
+                    <div class="card-body">
+                        <div class="border">瞬足+2</div>
+                        <div class="border">女神の微笑+1</div>
+                        <div class="border">追撃[白]+1</div>
+                        <div class="border">属性UP[白]+1</div>
+                    </div>
+                </div>
+                <span class="oi oi-plus" />
+                <div class="card" style="max-width:10rem; min-width:10rem;">
+                    <div class="card-header">ガトリングキャノン</div>
+                    <div class="card-body">
+                        <div class="border">瞬足+4</div>
+                        <div class="border">女神の微笑+4</div>
+                        <div class="border">追撃[白]+3</div>
+                        <div class="border">属性UP[白]+3</div>
+                    </div>
+                </div>
+                <span class="oi oi-arrow-right" />
+                <div class="card" style="max-width:10rem; min-width:10rem;">
+                    <div class="card-header bg-warning">ルミナス</div>
+                    <div class="card-body">
+                        <div class="border text-danger">瞬足+4</div>
+                        <div class="border text-danger">女神の微笑+4</div>
+                        <div class="border text-danger">属性UP[白]+3</div>
+                        <div class="border text-danger">追撃[白]+3</div>
+                    </div>
+                </div>
+            </div>
+            <div>…といった感じで、「2スキルだけ移植済」「3スキルだけ移植済」といった状態を経由し、最後に「+3/+4カードを使ってLvだけの厳選」にすることで、厳選の成功確率があがります。</div>
+        </li>
+        <li class="mb-4">
+            合成部屋に移動＆合成用カードを装着し、残る4スキルカードを合成(8スキル金カードができるまで粘る)
+            <ul class="alert alert-warning mx-2 py-0">
+                <li>
+                    ここではステは厳選せず、とりあえず金カードを目指すだけでよい
+                </li>
+            </ul>
+            <div class="card-deck text-center align-items-center border border-dark mx-3 small">
+                <div class="card" style="max-width:10rem; min-width:10rem;">
+                    <div class="card-header">ルミナス</div>
+                    <div class="card-body">
+                        <div class="border">瞬足+2</div>
+                        <div class="border">女神の微笑+1</div>
+                        <div class="border">属性UP[白]+1</div>
+                        <div class="border">追撃[白]+1</div>
+                    </div>
+                </div>
+                <span class="oi oi-plus" />
+                <div class="card" style="max-width:10rem; min-width:10rem;">
+                    <div class="card-header bg-warning">クリスタルゴーレム</div>
+                    <div class="card-body">
+                        <div class="border">食いしん坊+2</div>
+                        <div class="border">耐久の初撃+4</div>
+                        <div class="border">緊急回避+3</div>
+                        <div class="border">初速+3</div>
+                    </div>
+                </div>
+                <span class="oi oi-arrow-right" />
+                <div class="card" style="max-width:10rem; min-width:10rem;">
+                    <div class="card-header bg-warning">ルミナス<span class="text-danger">【金】</span></div>
+                    <div class="card-body">
+                        <div class="border">瞬足+2</div>
+                        <div class="border">女神の微笑+1</div>
+                        <div class="border">属性UP[白]+1</div>
+                        <div class="border">追撃[白]+1</div>
+                        <div class="border">食いしん坊+2</div>
+                        <div class="border">耐久の初撃+4</div>
+                        <div class="border">緊急回避+3</div>
+                        <div class="border">初速+3</div>
+                    </div>
+                </div>
+            </div>
+        </li>
+        <li class="mb-4">
+            ステを厳選したい場合は、「0スキルカード」もしくは「合成結果と全く同じスキルのみを持つカード」と合成する
+            <ul class="alert alert-warning mx-2 py-0">
+                <li>
+                    「0スキルカード」は、R9の「ダスティングボンベマン」、R10の「亡念のグール」「トゥームスコルピノ」「スケルトンマーダラー」
+                </li>
+                <li>
+                    「0スキルカード」や「合成結果と全く同じスキルのみを持つカード」がない(引けない)場合は、手順3で作った4スキルカードをもう一度作るか、最終カードと合成する時に保護フィルムを使って手元に残しておく
+                </li>
+            </ul>
+            <div class="card-deck text-center align-items-center border border-dark mx-3 small">
+                <div class="card" style="max-width:10rem; min-width:10rem;">
+                    <div class="card-header">ルミナス【金】</div>
+                    <div class="card-body">
+                        <div class="border">瞬足+2</div>
+                        <div class="border">女神の微笑+1</div>
+                        <div class="border">属性UP[白]+1</div>
+                        <div class="border">追撃[白]+1</div>
+                        <div class="border">食いしん坊+2</div>
+                        <div class="border">耐久の初撃+4</div>
+                        <div class="border">緊急回避+3</div>
+                        <div class="border">初速+3</div>
+                    </div>
+                </div>
+                <span class="oi oi-plus" />
+                <div class="card" style="max-width:10rem; min-width:10rem;">
+                    <div class="card-header">河童</div>
+                    <div class="card-body">
+                        <div class="border text-danger">初速+3</div>
+                    </div>
+                </div>
+                <span class="oi oi-arrow-right" />
+                <div class="card" style="max-width:10rem; min-width:10rem;">
+                    <div class="card-header">ルミナス【金】</div>
+                    <div class="card-body">
+                        <div class="border">瞬足+2</div>
+                        <div class="border">女神の微笑+1</div>
+                        <div class="border">属性UP[白]+1</div>
+                        <div class="border">追撃[白]+1</div>
+                        <div class="border">食いしん坊+2</div>
+                        <div class="border">耐久の初撃+4</div>
+                        <div class="border">緊急回避+3</div>
+                        <div class="border">初速+3</div>
+                    </div>
+                </div>
+            </div>
+        </li>
+    </ol>
+
+</div>
+
+
+@code {
+
+}

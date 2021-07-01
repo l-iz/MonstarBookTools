@@ -1,0 +1,64 @@
+﻿@page "/cardskilllist"
+
+@using Models
+
+<h3>カード別保有スキル一覧</h3>
+<div>
+    <span class="text-primary">青字</span>は、同一スキルでレベルが最も高いもの
+</div>
+
+
+<div class="container-fluid">
+    @foreach (var grp in CardService.CardDatas.GroupBy(cd => cd.Rank))
+    {
+        <div class="border text-warning" style="background-color:cornsilk">Rank @grp.Key</div>
+        <div class="row no-gutters small">
+            @foreach (var card in grp)
+            {
+                <div class="col-4 col-sm-3 col-md-2 col-xl-1">
+                    <div class="border bg-light text-center text-truncate font-weight-bold">@card.Name</div>
+                    @foreach (var skill in card.Skills)
+                    {
+                        var lvs = CardService.SkillDatas.Single(sd => sd.Name == skill.Name).Lvs;
+                        var attr = selectedSkill?.Name == skill.Name ? "bg-warning font-weight-bold" : "";
+                        if (skill.Lv == lvs.Max())
+                        {
+                            <div class="border text-primary text-truncate @attr" @onclick="_ => selectedSkill = skill">@skill</div>
+                        }
+                        else
+                        {
+                            <div class="border text-truncate @attr" @onclick="_ => selectedSkill = skill">@skill</div>
+                        }
+                    }
+                </div>
+            }
+        </div>
+    }
+
+    @if (selectedSkill != null)
+    {
+        <div class="alert alert-primary position-sticky fixed-bottom mt-2 mb-0 overflow-auto">
+            <div class="p-0 m-0">@selectedSkill.Name</div>
+            <dl class="row p-0 m-0 small">
+                @foreach (var grp in SelectedSkillHaveCard.GroupBy(a => a.Item3).OrderByDescending(g => g.Key))
+                {
+                    <dt class="col-1 p-0 m-0">@($"{grp.Key:+#;-#}")</dt>
+                    <dd class="col-11 p-0 m-0">
+                        <ul class="list-inline p-0 m-0">
+                            @foreach (var item in grp)
+                            {
+                                <li class="list-inline-item">@($"{item.Item1}(R{item.Item2})")</li>
+                            }
+                        </ul>
+                    </dd>
+                }
+            </dl>
+        </div>
+    }
+</div>
+
+@code {
+    private Skill? selectedSkill;
+    private IEnumerable<(string, string, int)> SelectedSkillHaveCard
+        => CardService.CardDatas.SelectMany(cd => cd.Skills.Where(s => s.Name == selectedSkill?.Name).Select(s => (cd.Name, cd.Rank, s.Lv)));
+}
