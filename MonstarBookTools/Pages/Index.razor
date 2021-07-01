@@ -24,7 +24,14 @@
                         <div class="card">
                             <div class="card-header">
                                 @card.Name
-                                【@card.Rare】
+                                <div>
+                                    <select class="small" @onchange="OnRareChanged">
+                                        @foreach (var rare in new[] { Rare.Bronze, Rare.Silver, Rare.Gold }.SkipWhile(r => r != recipe.MainCard?.Rare))
+                                        {
+                                            <option value="@rare.Name">@rare</option>
+                                        }
+                                    </select>
+                                </div>
                             </div>
                             <div class="card-body text-center m-0 p-0">
                                 <img src="@($"/card-images/{card.ImgSrc}")" class="card-img d-none d-xl-inline" style="width:106px" />
@@ -120,5 +127,13 @@
     {
         source.SelectedLv = int.Parse(e.Value?.ToString() ?? "0");
         recipe.SkillSelectChanged();
+    }
+
+    private void OnRareChanged(ChangeEventArgs e)
+    {
+        if (recipe.ResultCard != null && e.Value is string rareName)
+        {
+            recipe.ResultRare = new[] { Rare.Bronze, Rare.Silver, Rare.Gold }.Single(r => r.Name == rareName);
+        }
     }
 }

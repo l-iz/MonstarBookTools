@@ -59,6 +59,17 @@ namespace MonstarBookTools.Models
             }
         }
 
+        private Rare resultRare = Rare.Bronze;
+        public Rare ResultRare
+        {
+            get => resultRare;
+            set
+            {
+                resultRare = value;
+                Composite();
+            }
+        }
+
         public SkillSelectType Type { get; set; }
 
         public Card? ResultCard { get; set; }
@@ -72,7 +83,7 @@ namespace MonstarBookTools.Models
             };
 
             var lookup = AllSkills.ToLookup(s => s.Name, s => s.Lv);
-            Type = (SkillSelectType)lookup.Count.CompareTo(MainCard?.Rare.MaxSkillCount ?? 4);
+            Type = (SkillSelectType)lookup.Count.CompareTo(ResultRare.MaxSkillCount);
 
             SelectableSkill = lookup
                 .Select(lk => new SkillSelect(lk.Key, lk.Distinct(), Type))
@@ -88,15 +99,15 @@ namespace MonstarBookTools.Models
                 switch (Type)
                 {
                     case SkillSelectType.MustSelect:
-                        ResultCard = MainCard with { Skills = SelectableSkill.Select(ss => new Skill(ss.Name, ss.Lvs.Max())).ToArray() };
+                        ResultCard = MainCard with { Rare = ResultRare, Skills = SelectableSkill.Select(ss => new Skill(ss.Name, ss.Lvs.Max())).ToArray() };
                         MinRate = MaxRate = 1;
                         break;
                     case SkillSelectType.CanChangeLv:
-                        ResultCard = MainCard with { Skills = SelectableSkill.Select(ss => new Skill(ss.Name, ss.Lvs.Length == 1 ? ss.Lvs[0] : ss.IsChecked ? ss.SelectedLv : 0)).ToArray() };
+                        ResultCard = MainCard with { Rare = ResultRare, Skills = SelectableSkill.Select(ss => new Skill(ss.Name, ss.Lvs.Length == 1 ? ss.Lvs[0] : ss.IsChecked ? ss.SelectedLv : 0)).ToArray() };
                         MinRate = MaxRate = (1 - (double)SelectableSkill.Count(s => s.IsChecked) / (ResultCard.Rare.MaxSkillCount + 1));
                         break;
                     case SkillSelectType.Selectable:
-                        ResultCard = MainCard with { Skills = SelectableSkill.Where(ss => ss.IsChecked).Select(ss => new Skill(ss.Name, ss.SelectedLv)).Concat(Enumerable.Repeat(new Skill("***", 0), MainCard.Rare.MaxSkillCount)).Take(MainCard.Rare.MaxSkillCount).ToArray() };
+                        ResultCard = MainCard with { Rare = ResultRare, Skills = SelectableSkill.Where(ss => ss.IsChecked).Select(ss => new Skill(ss.Name, ss.SelectedLv)).Concat(Enumerable.Repeat(new Skill("***", 0), ResultRare.MaxSkillCount)).Take(ResultRare.MaxSkillCount).ToArray() };
                         var maxCount = AllSkills.Length;
                         var maxCountDistinct = SelectableSkill.Length;
                         var takeCount = ResultCard.Rare.MaxSkillCount;
