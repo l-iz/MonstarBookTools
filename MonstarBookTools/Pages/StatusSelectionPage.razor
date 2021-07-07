@@ -1,0 +1,400 @@
+﻿@page "/status"
+
+@using Models
+
+<div class="container-fluid">
+    <h3>カードステータス厳選シミュレータ</h3>
+
+    <div class="card-deck">
+        <!--Main Card-->
+        <div class="card text-center" style="max-width:18rem;">
+            <div class="card-header">
+                <div>
+                    Rank
+                    <select class="small" @onchange="RankChanged">
+                        @foreach (var rank in CardService.CardDatas.Select(cd => cd.Rank).Distinct())
+                        {
+                            <option>@rank</option>
+                        }
+                    </select>
+                </div>
+                <div>
+                    <select class="small" @onchange="CardChanged">
+                        @foreach (var card in CardService.CardDatas.Where(cd => cd.Rank == rank))
+                        {
+                            <option selected="@(card.Name == cardData?.Name)">@card.Name</option>
+                        }
+                    </select>
+                </div>
+            </div>
+            <ul class="list-group list-group-flush">
+                @foreach (var (type, st) in cardStatuses)
+                {
+                    <li class="list-group-item">
+                        <div class="row">
+                            <div class="col">@type.Name</div>
+                            <div class="col">
+                                @st.BaseValue
+                                @if (st.BaseValue != st.CorrectedValue)
+                                {
+                                    <span class="text-danger">⇒@st.CorrectedValue</span>
+                                }
+                            </div>
+                            <div class="col">
+                                @st.BaseGrowRank.Name
+                                @if (st.BaseGrowRank != st.CorrectedGrowRank)
+                                {
+                                    <span class="text-danger">⇒@st.CorrectedGrowRank.Name</span>
+                                }
+                            </div>
+                        </div>
+                    </li>
+                }
+                <li class="list-group-item"></li>
+            </ul>
+        </div>
+
+        <!--Skill etc.-->
+        <div class="card" style="max-width:30rem;">
+            <div class="card-header">
+                ステータス補正
+            </div>
+            <ul class="list-group list-group-flush">
+                @foreach (var (st, skill) in statusIncreaseSkills)
+                {
+                    var guid1 = Guid.NewGuid();
+                    var guid2 = Guid.NewGuid();
+
+                    <li class="list-group-item">
+                        <div class="row">
+                            <div class="col">
+                                <div class="form-check form-check-inline">
+                                    <input type="checkbox" id="@guid1" class="form-check-input" @onchange="e => skill.IncreaseSkillChecked = (bool?)e.Value ?? false" />
+                                    <label class="form-check-label" for="@guid1">@(st.Name)増加</label>
+                                    <select class="small" hidden="@(!skill.IncreaseSkillChecked)" @onchange="e => IncreaseSkillLvChanged(skill, e)">
+                                        @foreach (var lv in skill.IncreaseSkillLvs)
+                                        {
+                                            <option>@($"{lv:+#;-#}")</option>
+                                        }
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col">
+                                <div class="form-check form-check-inline">
+                                    <input type="checkbox" id="@guid2" class="form-check-input" @onchange="e => skill.GrowSkillChecked = (bool?)e.Value ?? false" />
+                                    <label class="form-check-label" for="@guid2">@(st.Name)成長</label>
+                                    <select class="small" hidden="@(!skill.GrowSkillChecked)" @onchange="e => GrowSkillLvChanged(skill, e)">
+                                        @foreach (var lv in skill.GrowSkillLvs)
+                                        {
+                                            <option>@($"{lv:+#;-#}")</option>
+                                        }
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                    </li>
+                }
+                <li class="list-group-item">
+                    <div class="row">
+                        <div class="col">
+                            <div class="form-check form-check-inline">
+                                <input type="checkbox" id="tk1" class="form-check-input" @onchange="TakuminoWazaMainCheckedChanged" />
+                                <label class="form-check-label" for="tk1">匠の技(MainCard)</label>
+                                <select class="small" hidden="@(!tkSkill.MainChecked)" @onchange="TakuminoWazaMainLvChanged">
+                                    @foreach (var lv in tkSkill.SkillLvs)
+                                    {
+                                        <option>@($"{lv:+#;-#}")</option>
+                                    }
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col">
+                            <div class="form-check form-check-inline">
+                                <input type="checkbox" id="tk2" class="form-check-input" @onchange="TakuminoWazaSubCheckedChanged" />
+                                <label class="form-check-label" for="tk2">匠の技(SubCard)</label>
+                                <select class="small" hidden="@(!tkSkill.SubChecked)" @onchange="TakuminoWazaSubLvChanged">
+                                    @foreach (var lv in tkSkill.SkillLvs)
+                                    {
+                                        <option>@($"{lv:+#;-#}")</option>
+                                    }
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                </li>
+                <li class="list-group-item">
+                    <div class="row">
+                        <div class="col">ステータスボーナス回数(Rank)</div>
+                        <div class="col-auto">@cardData.StBonus</div>
+                    </div>
+                </li>
+                <li class="list-group-item">
+                    <div class="row">
+                        <div class="col">ステータスボーナス回数(匠の技)</div>
+                        <div class="col-auto">@tkSkill.StBonus</div>
+                    </div>
+                </li>
+                <li class="list-group-item">
+                    <div class="row">
+                        <div class="col">ステータスボーナス回数(合成部屋)</div>
+                        <div class="col-auto">
+                            <select class="small" @onchange="RoomBonusChanged">
+                                <option>0</option>
+                                <option>1</option>
+                                <option>2</option>
+                                <option>3</option>
+                            </select>
+                        </div>
+                    </div>
+                </li>
+                <li class="list-group-item">
+                    <div class="row">
+                        <div class="col">ステータス成長率ボーナス回数(合成部屋)</div>
+                        <div class="col-auto">
+                            <select class="small" @onchange="RoomGrowBonusChanged">
+                                <option>0</option>
+                                <option>1</option>
+                                <option>2</option>
+                                <option>3</option>
+                            </select>
+                        </div>
+                    </div>
+                </li>
+            </ul>
+        </div>
+
+        <!--Composite Result-->
+        <div class="card" style="max-width:50rem;">
+            <div class="card-header">
+                <div>
+                    合成後ステータス分布
+                    <select class="small" @onchange="CheckStatusTypeChanged">
+                        @foreach (var st in StatusType.Statuses)
+                        {
+                            <option>@st.Name</option>
+                        }
+                    </select>
+                </div>
+            </div>
+            <ul class="list-group list-group-flush">
+                <li class="list-group-item list-group-item-secondary">ステータス</li>
+                @{ var stPreds = ConvStatusPredictives(cardStatuses[calc.StatusType].CorrectedValue, calc.StatusDistribution); }
+                @foreach (var pred in stPreds)
+                {
+                    <li class="list-group-item @(pred.Value == targetStatus ? "list-group-item-primary" : "")" @onclick="_ => targetStatus = pred.Value">
+                        <div class="row">
+                            <div class="col">@(pred.Value)以上</div>
+                            <div class="col">@($"{pred.Probability:P2}")</div>
+                        </div>
+                    </li>
+                }
+                <li class="list-group-item list-group-item-secondary">成長率</li>
+                @foreach (var pred in ConvGrowRankPredictives(cardStatuses[calc.StatusType].CorrectedGrowRank, calc.GrowDistribution))
+                {
+                    <li class="list-group-item">
+                        <div class="row">
+                            <div class="col">@(pred.Value.Name)以上</div>
+                            <div class="col">@($"{pred.Probability:P2}")</div>
+                        </div>
+                    </li>
+                }
+            </ul>
+
+            @if (stPreds.SingleOrDefault(p => p.Value == targetStatus) is Predictive<int> target)
+            {
+                <div class="card-footer">
+                    目標ステータス値:@target.Value<br />
+                    成功率:@($"{target.Probability:P2}")
+                    <ul>
+                        @foreach (var peoplePersentage in new[] { 0.5, 0.7, 0.9 })
+                        {
+                            var trail = GetTrailNum(target.Probability, peoplePersentage);
+                            <li>
+                                @($"{peoplePersentage:P0}")の人が<span class="text-danger">@trail</span>回目までに成功
+                                合成費用<span class="text-danger">@($"{cardData.Composite * trail:N0}")</span>Seed
+                            </li>
+                        }
+                    </ul>
+                </div>
+            }
+        </div>
+        <!--LvUp Result-->
+        @*<div class="card" style="max-width:50rem;">
+                <div class="card-header">
+                    <div>LvUp後ステータス分布</div>
+                </div>
+                <ul class="list-group list-group-flush">
+                    <li class="list-group-item list-group-item-primary">
+                        <div class="row">
+                            <div class="col">7</div>
+                            <div class="col">100.00%</div>
+                        </div>
+                    </li>
+                    <li class="list-group-item">
+                        <div class="row">
+                            <div class="col">8</div>
+                            <div class="col">0.00%</div>
+                        </div>
+                    </li>
+                    <li class="list-group-item">
+                        <div class="row">
+                            <div class="col">9</div>
+                            <div class="col">0.00%</div>
+                        </div>
+                    </li>
+                    <li class="list-group-item">
+                        <div class="row">
+                            <div class="col">10</div>
+                            <div class="col">0.00%</div>
+                        </div>
+                    </li>
+                    <li class="list-group-item">
+                        <div class="row">
+                            <div class="col">11</div>
+                            <div class="col">0.00%</div>
+                        </div>
+                    </li>
+                    <li class="list-group-item">
+                        <div class="row">
+                            <div class="col">12</div>
+                            <div class="col">0.00%</div>
+                        </div>
+                    </li>
+                </ul>
+                <div class="card-footer">
+                    見込み試行回数:
+                    <ul>
+                        <li>50%の人が1回目までに成功 合成費用1,000Seed</li>
+                        <li>70%の人が1回目までに成功 合成費用1,000Seed</li>
+                        <li>90%の人が1回目までに成功 合成費用1,000Seed</li>
+                    </ul>
+                </div>
+            </div>*@
+    </div>
+</div>
+
+@code {
+    private Dictionary<StatusType, StatusIncreaseSkill> statusIncreaseSkills = StatusType.Statuses.ToDictionary(st => st, st => new StatusIncreaseSkill(st));
+    private Dictionary<StatusType, CardStatus> cardStatuses;
+    private string rank = "1";
+    private CardData cardData = CardService.CardDatas[0];
+    private TakuminoWazaSkill tkSkill = new();
+    private StatusRateCalculator calc = new StatusRateCalculator();
+    private int targetStatus;
+
+    private record Predictive<T>(T Value, double Probability);
+    private IEnumerable<Predictive<int>> ConvStatusPredictives(int baseValue, IEnumerable<Distribution> dist)
+    {
+        return dist.Select(d => new Predictive<int>(baseValue + d.Value, 1 - dist.TakeWhile(dd => dd != d).Sum(dd => dd.Probability)));
+    }
+
+    private IEnumerable<Predictive<StatusGrowRank>> ConvGrowRankPredictives(StatusGrowRank baseRank, IEnumerable<Distribution> dist)
+    {
+        var pred = dist.Select(d => new Predictive<StatusGrowRank>(baseRank + d.Value, 1 - dist.TakeWhile(dd => dd != d).Sum(dd => dd.Probability)));
+        return pred.Select(p => p.Value).Distinct().Zip(pred, (_, p) => p);
+    }
+
+    public int GetTrailNum(double rate, double peoplePersentage)
+    {
+        return Math.Max(1, (int)Math.Ceiling(Math.Log(1 - peoplePersentage, 1 - rate)));
+    }
+
+    public StatusSelectionPage()
+    {
+        cardStatuses = cardData.Statuses.Zip(statusIncreaseSkills.Values, (st, skill) => new CardStatus(st.Value, st.Grow, skill)).ToDictionary(st => st.Skill.StatusType);
+    }
+
+    private void RankChanged(ChangeEventArgs e)
+    {
+        if (e.Value is string rank)
+        {
+            this.cardData = CardService.CardDatas.First(cd => cd.Rank == rank);
+            this.rank = rank;
+            CardChanged(new ChangeEventArgs() { Value = this.cardData.Name });
+        }
+    }
+
+    private void CardChanged(ChangeEventArgs e)
+    {
+        if (e.Value is string name)
+        {
+            cardData = CardService.CardDatas.Single(cd => cd.Name == name);
+            cardStatuses = cardData.Statuses.Zip(statusIncreaseSkills.Values, (st, skill) => new CardStatus(st.Value, st.Grow, skill)).ToDictionary(st => st.Skill.StatusType);
+            calc.RankBonusCount = cardData.StBonus;
+        }
+    }
+
+    private void IncreaseSkillLvChanged(StatusIncreaseSkill skill, ChangeEventArgs e)
+    {
+        if (e.Value is string s && int.TryParse(s, out var lv))
+        {
+            skill.IncreaseSkillLv = lv;
+            StateHasChanged();
+        }
+    }
+
+    private void GrowSkillLvChanged(StatusIncreaseSkill skill, ChangeEventArgs e)
+    {
+        if (e.Value is string s && int.TryParse(s, out var lv))
+        {
+            skill.GrowSkillLv = lv;
+            StateHasChanged();
+        }
+    }
+
+    private void TakuminoWazaMainCheckedChanged(ChangeEventArgs e)
+    {
+        tkSkill.MainChecked = (bool?)e.Value ?? false;
+        calc.TakumiBonusCount = tkSkill.StBonus;
+    }
+
+    private void TakuminoWazaMainLvChanged(ChangeEventArgs e)
+    {
+        if (e.Value is string s && int.TryParse(s, out var lv))
+        {
+            tkSkill.MainLv = lv;
+            calc.TakumiBonusCount = tkSkill.StBonus;
+            StateHasChanged();
+        }
+    }
+
+    private void TakuminoWazaSubCheckedChanged(ChangeEventArgs e)
+    {
+        tkSkill.SubChecked = (bool?)e.Value ?? false;
+        calc.TakumiBonusCount = tkSkill.StBonus;
+    }
+
+    private void TakuminoWazaSubLvChanged(ChangeEventArgs e)
+    {
+        if (e.Value is string s && int.TryParse(s, out var lv))
+        {
+            tkSkill.SubLv = lv;
+            calc.TakumiBonusCount = tkSkill.StBonus;
+            StateHasChanged();
+        }
+    }
+
+    private void RoomBonusChanged(ChangeEventArgs e)
+    {
+        if (e.Value is string s && int.TryParse(s, out var lv))
+        {
+            calc.RoomBonusCount = lv;
+        }
+    }
+
+    private void RoomGrowBonusChanged(ChangeEventArgs e)
+    {
+        if (e.Value is string s && int.TryParse(s, out var lv))
+        {
+            calc.RoomGrowBonusCount = lv;
+        }
+    }
+
+    private void CheckStatusTypeChanged(ChangeEventArgs e)
+    {
+        if (e.Value is string s && StatusType.TryParse(s, out var st))
+        {
+            calc.StatusType = st;
+        }
+    }
+}

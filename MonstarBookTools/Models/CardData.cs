@@ -16,20 +16,31 @@ namespace MonstarBookTools.Models
             Composite = composite;
             MaxLv = maxLv;
             ImgSrc = imgSrc;
-            Status = status.ToArray();
-            StatusRank = statusRank.ToArray();
+            Statuses = status.Zip(statusRank, (v, g) => new Status(v, g)).ToArray();
             Skills = skills.ToArray();
         }
 
         public string Name { get; }
         public string Rank { get; }
+        public int StBonus => int.TryParse(Rank, out var value) ? value / 2 : 0;
         public int CP { get; }
         public int Charge { get; }
         public int Composite { get; }
         public int MaxLv { get; }
-        public int[] Status { get; }
-        public string[] StatusRank { get; }
+        public Status[] Statuses { get; }
         public string ImgSrc { get; }
         public Skill[] Skills { get; }
+
+        public class Status
+        {
+            public Status(int value, string grow)
+            {
+                Value = value;
+                Grow = StatusGrowRank.TryParse(grow, out var gr) ? gr : StatusGrowRank.F;
+            }
+
+            public int Value { get; }
+            public StatusGrowRank Grow { get; }
+        }
     }
 }
