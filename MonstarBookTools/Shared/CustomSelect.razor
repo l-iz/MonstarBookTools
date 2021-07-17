@@ -1,0 +1,46 @@
+﻿@typeparam TItem;
+
+<select hidden="@Hidden" @attributes="Attributes" @onchange="OnChanged">
+    @for (int i = 0; i < ItemsSource.Count; i++)
+    {
+        <option value="@i">@ItemsSource[i]</option>
+    }
+</select>
+
+@code {
+    [Parameter(CaptureUnmatchedValues = true)]
+    public Dictionary<string, object>? Attributes { get; set; }
+
+    [Parameter]
+    public IList<TItem> ItemsSource { get; set; } = Array.Empty<TItem>();
+
+    //[Parameter]
+    //public Action<TItem?>? ValueChangedAction { get; set; }
+
+    [Parameter]
+    public bool Hidden { get; set; }
+
+    private void OnChanged(ChangeEventArgs e)
+    {
+        var index = int.TryParse($"{e.Value}", out var parsed) ? parsed : -1;
+        SelectedItem = ItemsSource.ElementAtOrDefault(index);
+        //ValueChangedAction?.Invoke(ItemsSource.ElementAtOrDefault(index));
+    }
+
+    private TItem? selectedItem;
+    [Parameter]
+    public TItem? SelectedItem
+    {
+        get => selectedItem;
+        set
+        {
+            if (!(selectedItem?.Equals(value) ?? false))
+            {
+                selectedItem = value;
+                SelectedItemChanged.InvokeAsync(selectedItem);
+            }
+        }
+    }
+    [Parameter]
+    public EventCallback<TItem> SelectedItemChanged { get; set; }
+}

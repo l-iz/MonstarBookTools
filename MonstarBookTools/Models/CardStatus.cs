@@ -16,7 +16,7 @@ namespace MonstarBookTools.Models
         public static readonly StatusType AGI = new("AGI", 1);
         public static readonly StatusType DEX = new("DEX", 1);
 
-        public static readonly StatusType[] Statuses = new[] { STAB, HACK, INT, DEF, MR, DEX, AGI };
+        public static readonly StatusType[] Statuses = new[] { STAB, HACK, INT, DEF, MR, AGI, DEX };
         public static bool TryParse(string s, [NotNullWhen(true)] out StatusType? statusType)
         {
             statusType = Statuses.SingleOrDefault(st => st.Name == s);
