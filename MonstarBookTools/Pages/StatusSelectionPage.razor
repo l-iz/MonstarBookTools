@@ -130,12 +130,6 @@
                 </li>
                 <li class="list-group-item">
                     <div class="row">
-                        <div class="col">ステータスボーナス回数(匠の技)</div>
-                        <div class="col-auto">@tkSkill.StBonus</div>
-                    </div>
-                </li>
-                <li class="list-group-item">
-                    <div class="row">
                         <div class="col">ステータスボーナス回数(合成部屋)</div>
                         <div class="col-auto">
                             <select class="small" @onchange="RoomBonusChanged">
@@ -345,7 +339,7 @@
     private void TakuminoWazaMainCheckedChanged(ChangeEventArgs e)
     {
         tkSkill.MainChecked = (bool?)e.Value ?? false;
-        calc.TakumiBonusCount = tkSkill.StBonus;
+        calc.TakumiMainSLv = tkSkill.MainBonus;
     }
 
     private void TakuminoWazaMainLvChanged(ChangeEventArgs e)
@@ -353,7 +347,7 @@
         if (e.Value is string s && int.TryParse(s, out var lv))
         {
             tkSkill.MainLv = lv;
-            calc.TakumiBonusCount = tkSkill.StBonus;
+            calc.TakumiMainSLv = tkSkill.MainBonus;
             StateHasChanged();
         }
     }
@@ -361,7 +355,7 @@
     private void TakuminoWazaSubCheckedChanged(ChangeEventArgs e)
     {
         tkSkill.SubChecked = (bool?)e.Value ?? false;
-        calc.TakumiBonusCount = tkSkill.StBonus;
+        calc.TakumiSubSLv = tkSkill.SubBonus;
     }
 
     private void TakuminoWazaSubLvChanged(ChangeEventArgs e)
@@ -369,7 +363,7 @@
         if (e.Value is string s && int.TryParse(s, out var lv))
         {
             tkSkill.SubLv = lv;
-            calc.TakumiBonusCount = tkSkill.StBonus;
+            calc.TakumiSubSLv = tkSkill.SubBonus;
             StateHasChanged();
         }
     }

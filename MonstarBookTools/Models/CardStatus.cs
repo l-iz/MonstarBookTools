@@ -87,9 +87,11 @@ namespace MonstarBookTools.Models
     {
         public bool MainChecked { get; set; }
         public int MainLv { get; set; } = 3;
+        public int MainBonus => MainChecked ? MainLv : 0;
         public bool SubChecked { get; set; }
         public int SubLv { get; set; } = 3;
-        public int StBonus => (MainChecked ? MainLv : 0) + (SubChecked ? SubLv : 0);
+        public int SubBonus => SubChecked ? SubLv : 0;
+        //public int StBonus => (MainChecked ? MainLv : 0) + (SubChecked ? SubLv : 0);
         public int[] SkillLvs { get; } = new[] { 3, 2, 1, -1, -2, -3 };
     }
 }
