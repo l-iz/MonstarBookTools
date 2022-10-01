@@ -5,32 +5,22 @@ using System.Threading.Tasks;
 
 namespace MonstarBookTools.Models
 {
-    public record Distribution(int Value, double Probability)
-    {
-        public Distribution(Distribution d1, Distribution d2) : this(d1.Value + d2.Value, d1.Probability * d2.Probability) { }
-    }
+    public record Distribution(int Value, double Probability);
     public class StatusRateCalculator
     {
         public StatusType StatusType { get; set; } = StatusType.STAB;
         public int RankBonusCount { get; set; }
-        public int TakumiMainSLv { get; set; }
-        public int TakumiSubSLv { get; set; }
+        public int TakumiBonusCount { get; set; }
         public int RoomBonusCount { get; set; }
         public int RoomGrowBonusCount { get; set; }
 
 
         private IEnumerable<Distribution> RankUpDist => GetRate(RankBonusCount, 1.0 / 7, StatusType.RareBonusCorrect);
-        private IEnumerable<Distribution> RoomUpDist => GetRate(RoomBonusCount, 1.0 / 7);
-        private IEnumerable<Distribution> TakumiMainUpDist => GetRate(1, 1.0 / 7, TakumiMainSLv);
-        private IEnumerable<Distribution> TakumiSubUpDist => GetRate(1, 1.0 / 7, TakumiSubSLv);
+        private IEnumerable<Distribution> TakumiAndRoomUpDist => GetRate(TakumiBonusCount + RoomBonusCount, 1.0 / 7);
 
-        public IEnumerable<Distribution> StatusDistribution => RankUpDist
-            .SelectMany(rk => RoomUpDist.Select(rm => new Distribution(rk, rm)))
-            .SelectMany(d => TakumiMainUpDist.Select(t => new Distribution(d, t)))
-            .SelectMany(d => TakumiSubUpDist.Select(t => new Distribution(d, t)))
+        public IEnumerable<Distribution> StatusDistribution => RankUpDist.SelectMany(r => TakumiAndRoomUpDist.Select(t => new Distribution(r.Value + t.Value, r.Probability * t.Probability)))
             .GroupBy(d => d.Value)
-            .Select(g => new Distribution(g.Key, g.Sum(dd => dd.Probability)))
-            .OrderBy(d => d.Value);
+            .Select(g => new Distribution(g.Key, g.Sum(dd => dd.Probability)));
 
         public IEnumerable<Distribution> GrowDistribution => GetRate(RoomGrowBonusCount, 1.0 / 7);
 
