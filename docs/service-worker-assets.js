@@ -1405,11 +1405,11 @@
       "url": "_framework\/System.IO.Pipelines.dll.br"
     },
     {
-      "hash": "sha256-u1bvx+YHvds1Xqh6+HQ42Lr+5C0kgIxVwPwvoUrP0Ik=",
+      "hash": "sha256-SwPPOPdXuhg6O12cEisR8szUsXJX7sVx32aiLNTEruk=",
       "url": "_framework\/MonstarBookTools.dll.br"
     },
     {
-      "hash": "sha256-dWriykBrMKO7AhJY4vozH4lF+\/vWpRJFbXfUQryrlxo=",
+      "hash": "sha256-\/JhvdjOTYcrplxDZ3u0TfyJYdQPAc7qe3ZOyFxlZYUQ=",
       "url": "_framework\/blazor.boot.json.br"
     },
     {
@@ -1425,5 +1425,5 @@
       "url": "brotliloader.min.js"
     }
   ],
-  "version": "\/wVg7Wq0"
+  "version": "hbmOqyKG"
 };
