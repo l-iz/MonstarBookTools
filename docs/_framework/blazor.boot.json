@@ -187,7 +187,7 @@
       "Microsoft.JSInterop.dll": "sha256-qPIvEaHuBRFKLKbFwUK34ATZV69kdVFC+lzKmpVMxpQ=",
       "Microsoft.JSInterop.WebAssembly.dll": "sha256-PotMOSV6NCm1RFdQpG4oXzBipnkMHmHEr\/7e4q90k5k=",
       "System.IO.Pipelines.dll": "sha256-3ET+mpR7F058YRj9YaLHOVXBqOW6iUxtIpeiKPYw4PA=",
-      "MonstarBookTools.dll": "sha256-VzRHNks3oMCUXfDa\/3kZ5VsHzfXYhTqV1vn3dxP392s="
+      "MonstarBookTools.dll": "sha256-jsK8I2X4Y4BSmyG8sr6w7b1Nxo+0yAdnXiUVNEP9dVw="
     },
     "lazyAssembly": null,
     "pdb": null,

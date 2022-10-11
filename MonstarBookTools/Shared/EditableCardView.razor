@@ -31,7 +31,7 @@
     @if (Card != null)
     {
         <div class="card-body text-center m-0 p-0">
-            <img src="@($"/card-images/{Card.ImgSrc}")" class="card-img d-none d-xl-inline" style="width:106px" />
+            <img src="@($"card-images/{Card.ImgSrc}")" class="card-img d-none d-xl-inline" style="width:106px" />
         </div>
     }
     <div class="card-body" @onclick="() => modal?.Open(CardService.SkillDatas, Card?.Skills ?? Array.Empty<Skill>(), SetSelectedSkills)">
